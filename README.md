@@ -32,6 +32,20 @@ Every website added should have the following configuration set:
 
 __Remember__ to match the VIRTUAL_HOST and LETSENCRYPT_HOST used with those specified in the _server_name_ attribute of your config file at __volumes/your_website/conf.d/your.conf__
 
+If you need to restrict access to hidden files and directories ensure that letsencrypt can still access the /.well-known/acme-challenge/ directory with the following nginx config:
+
+```
+    location ~ /.well-known/acme-challenge/ {
+      allow all;
+    }
+
+    location ~ /\. {
+      deny all;
+      access_log off;
+      log_not_found off;
+    }
+```
+
 ## Config Changes
 
 1. Update __VIRTUAL_HOST__ and __LETSENCRYPT_HOST__ with your domain names within the docker-compose file.
