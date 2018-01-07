@@ -30,6 +30,8 @@ Every website added should have the following configuration set:
       - LETSENCRYPT_EMAIL=your_email@something.com
 ```
 
+__Remember__ to match the VIRTUAL_HOST and LETSENCRYPT_HOST used with those specified in the _server_name_ attribute of your config file at __volumes/your_website/conf.d/your.conf__
+
 ## Config Changes
 
 1. Update __VIRTUAL_HOST__ and __LETSENCRYPT_HOST__ with your domain names within the docker-compose file.
@@ -57,9 +59,23 @@ docker image rm name
 ```
 docker volume ls | awk '{if(NR>1)print}' | tr -s " " | cut -d " " -f2 | xargs docker volume rm
 ```
+If you can't remove some volumes because they are being used, you can either remove the hashes of the containers using the volumes with:
+
+```
+docker stop HASH
+docker rm HASH
+```
+
+or remove all containers with:
+
+```
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
 
 ## Testing
 1. To use the [letsencrypt staging environment](https://letsencrypt.org/docs/staging-environment/) set the __ACME_CA_URI__ environment variable in the docker-compose.yml file under the __letsencrypt-nginx-proxy-companion__ section for environment vars: ```ACME_CA_URI=https://acme-staging.api.letsencrypt.org/directory```
+1. To add debug logging to the letsencrypt container add the fllowing environment var: ```DEBUG=true```
 
 ## Troubleshooting
 * To view logs run `docker-compose logs`.
