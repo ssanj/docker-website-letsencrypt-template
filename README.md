@@ -95,5 +95,5 @@ docker rm $(docker ps -a -q)
 * To view logs run `docker-compose logs`.
 * To view the generated Nginx configuration run `docker exec -ti nginx cat /etc/nginx/conf.d/default.conf`
 * To stop and remove all containers: ```docker-compose down```
-* If your certificates aren't renewed see #1
+* If your certificates aren't renewed see [#1](https://github.com/ssanj/docker-website-letsencrypt-template/issues/1)
 
